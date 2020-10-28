@@ -1,4 +1,7 @@
 package com.group.api.repository;
 
-public class GroupRepository {
+import com.group.api.domain.Group;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GroupRepository extends JpaRepository<Group, Long> {
 }
