@@ -1,9 +1,12 @@
 package com.group.api.web.dto;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 /**
@@ -16,7 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
-public class GroupDto {
+@Setter
+public class GroupDto implements Serializable{
     private Long id;            // group key
     private String title;       // 제목
     private String category;    // 카테고리
