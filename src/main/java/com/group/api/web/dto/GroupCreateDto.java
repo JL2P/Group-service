@@ -12,17 +12,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 public class GroupCreateDto implements Serializable{
-	private Long id;            // group key
+
     private String title;       // 제목
     private String category;    // 카테고리
     private String master;      // 그룹장ID
     private String description; // 설명글
+    private String imgUrl;      // 이미지 URL
     
     public GroupCreateDto(Group group){
     	BeanUtils.copyProperties(group, this);

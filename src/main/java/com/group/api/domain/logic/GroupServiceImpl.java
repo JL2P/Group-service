@@ -33,7 +33,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group addGroup(Group group) throws GroupNotExistException {
-        if(isExist(group.getId()))throw new GroupNotExistException(group.getId().toString());
+//        if(isExist(group.getId()))throw new GroupNotExistException(group.getId().toString());
 
         return repository.save(group);
     }
