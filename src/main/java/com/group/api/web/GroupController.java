@@ -33,7 +33,7 @@ public class GroupController {
     }
     
     @ApiOperation(value = "Group 추가", notes = "GroupCreateDto 타입을 이용하여 데이터를 받아온다.")
-    @PostMapping("groupList/")
+    @PostMapping()
     public Group addGroup(@RequestBody GroupCreateDto groupCreateDto) {
     	Group newAddGroup = groupCreateDto.toDomain();
     	return groupService.addGroup(newAddGroup);
