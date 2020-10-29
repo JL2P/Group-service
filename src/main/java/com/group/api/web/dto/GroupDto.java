@@ -26,4 +26,5 @@ public class GroupDto implements Serializable{
     private String category;    // 카테고리
     private String master;      // 그룹장ID
     private String description; // 설명글
+    private String imgUrl;      // 이미지 URL
 }
