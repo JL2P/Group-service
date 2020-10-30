@@ -41,9 +41,9 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public Group modifyGroup(Group group) throws NoSuchElementException {
         //DB에 todo가 존재하는지 확인
-        if(!isExist(group.getId()))throw new NoSuchElementException(group.getId().toString());
-
-        return repository.save(group);
+//        if(!isExist(group.getId()))throw new NoSuchElementException(group.getId().toString());
+    	repository.save(group);
+        return group;
     }
 
     @Override
