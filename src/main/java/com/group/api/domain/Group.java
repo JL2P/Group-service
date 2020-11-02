@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @AllArgsConstructor
@@ -23,5 +26,9 @@ public class Group {
     private String master;      // 그룹장ID
     private String description; // 설명글
     private String imgUrl;      // 이미지 URL
+    
+    //member
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Member> members = new ArrayList<Member>();
 
 }

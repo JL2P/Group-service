@@ -1,6 +1,12 @@
 package com.group.api.web.dto;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.BeanUtils;
+
+import com.group.api.domain.Group;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,4 +33,16 @@ public class GroupDto implements Serializable{
     private String master;      // 그룹장ID
     private String description; // 설명글
     private String imgUrl;      // 이미지 URL
+    private List<MemberDto> members;
+    
+    public GroupDto(Group group){
+    	BeanUtils.copyProperties(group, this);
+    	this.members = group.getMembers().stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+    }
+    
+    public Group toDomain() {
+    	Group group = new Group();
+    	BeanUtils.copyProperties(this,group);
+    	return group;
+    }
 }
