@@ -22,4 +22,5 @@ public class Member {
 
     private String accountId;   // 멤버 ID
     private String confirm;     // (승인 Y / 미승인 N) 승인여부
+    private String manager; //관리자
 }
