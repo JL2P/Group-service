@@ -28,9 +28,12 @@ public class MemberDto {
     	BeanUtils.copyProperties(member, this);
     }
     
-    public Member toDomain() {
+    public Member toDomain(Group group) {
     	Member member = new Member();
     	BeanUtils.copyProperties(this,member);
+    	//member를 만들려고하니, member 도메인에 Group이 연관관계로 있어서 반드시 넣어줘야함
+        //그래서 controller에서 받아온 groupId를 이용해서 GroupService를 통해 Group객체를 받아서 넣어주는 부분
+    	member.setGroup(group);
     	return member;
     }
 }
