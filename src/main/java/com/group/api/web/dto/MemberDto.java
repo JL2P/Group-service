@@ -25,7 +25,9 @@ public class MemberDto {
     private String manager; //관리자
     
     public MemberDto(Member member){
-    	BeanUtils.copyProperties(member, this);
+        BeanUtils.copyProperties(member, this);
+        this.groupId=member.getGroup().getId();
+
     }
     
     public Member toDomain(Group group) {
