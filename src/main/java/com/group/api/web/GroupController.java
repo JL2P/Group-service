@@ -48,15 +48,16 @@ public class GroupController {
      */
     @ApiOperation(value = "Group 디테일 정보 조회", notes = "groupId 값을 이용하여 조회한다.")
     @GetMapping("{groupId}")
-    public Group getGroup(@PathVariable Long groupId) {
-    	return groupService.getGroup(groupId);
+    public GroupDto getGroup(@PathVariable Long groupId) {
+        Group group = groupService.getGroup(groupId);
+    	return new GroupDto(group);
     }
     
     @ApiOperation(value = "Group 추가", notes = "GroupCreateDto 타입을 이용하여 데이터를 받아온다.")
     @PostMapping()
-    public Group addGroup(@RequestBody GroupCreateDto groupCreateDto) {
+    public GroupDto addGroup(@RequestBody GroupCreateDto groupCreateDto) {
     	Group newAddGroup = groupCreateDto.toDomain();
-    	return groupService.addGroup(newAddGroup);
+    	return new GroupDto(groupService.addGroup(newAddGroup));
     }
     
     @ApiOperation(value = "Group 수정", notes = "GroupDetail 변경 설정을 저장한다.")
