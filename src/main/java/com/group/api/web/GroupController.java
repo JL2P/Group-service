@@ -48,8 +48,9 @@ public class GroupController {
      */
     @ApiOperation(value = "Group 디테일 정보 조회", notes = "groupId 값을 이용하여 조회한다.")
     @GetMapping("{groupId}")
-    public Group getGroup(@PathVariable Long groupId) {
-    	return groupService.getGroup(groupId);
+    public GroupDto getGroup(@PathVariable Long groupId) {
+        Group group = groupService.getGroup(groupId);
+    	return new GroupDto(group);
     }
     
     @ApiOperation(value = "Group 추가", notes = "GroupCreateDto 타입을 이용하여 데이터를 받아온다.")
