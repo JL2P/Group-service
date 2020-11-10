@@ -44,8 +44,7 @@ public class MemberServiceImpl implements MemberService {
 	    public Member modifyMember(Member member) throws NoSuchElementException {
 	        //DB에 member가 존재하는지 확인
 //	        if(!isExist(group.getId()))throw new NoSuchElementException(group.getId().toString());
-	    	repository.save(member);
-	        return member;
+	        return repository.save(member);
 	    }
 
 	    @Override

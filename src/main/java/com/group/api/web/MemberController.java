@@ -5,6 +5,7 @@ import com.group.api.domain.Member;
 import com.group.api.domain.service.MemberService;
 import com.group.api.web.dto.MemberDto;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.event.PublicInvocationEvent;
 import org.springframework.web.bind.annotation.*;
 
 import com.group.api.domain.service.GroupService;
@@ -34,13 +35,20 @@ public class MemberController {
 
     @ApiOperation(value = "Member 추가", notes = "멤버 타입을 활용항 데이터를 받아온다.")
     @PostMapping("{groupId}/member")
-    public Member addMember(@RequestBody MemberDto MemberDto,@PathVariable Long groupId){
+    public Member addMember(@RequestBody MemberDto memberDto,@PathVariable Long groupId){
 
         //member에 넣어줄 그룹의 정보를 가져온다.
         Group group = groupService.getGroup(groupId);
         //DB에 저장할 member 정보를 만들어준다 (DTO에서 Domain으로 변환)
-        Member newAddMember = MemberDto.toDomain(group);
-        //만등러진 member객체를 실제 디비에 저장한다
+        Member newAddMember = memberDto.toDomain(group);
+        //만들어진 member객체를 실제 디비에 저장한다
         return memberService.addMember(newAddMember);
+    }
+    @ApiOperation(value = "Member 수정", notes = "Member의 내용을 수정한다.")
+    @PutMapping("{groupId}/member")
+    public Member modifyMember(@RequestBody MemberDto memberDto, @PathVariable Long groupId){
+        Group group = groupService.getGroup(groupId);
+        Member newModifyMember = memberDto.toDomain(group);
+        return memberService.modifyMember(newModifyMember);
     }
 }
