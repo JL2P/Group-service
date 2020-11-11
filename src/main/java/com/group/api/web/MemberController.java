@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.management.ValueExp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(tags = {"2. Members"})
 @RequiredArgsConstructor
@@ -26,8 +27,12 @@ public class MemberController {
     private final GroupService groupService;
 
     @ApiOperation(value = "Member 리스트 출력", notes = "전체 멤버 리스트를 출력한다.")
-    @GetMapping("{groupId}/member")
-    public List<Member> getMembers(){return memberService.getMembers();}
+    @GetMapping("/member")
+    public List<MemberDto> getMembers(){
+        List<Member> memberList = memberService.getMembers();
+        List<MemberDto> memberDtoList = memberList.stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+        return memberDtoList;
+    }
 
     @ApiOperation(value = "Member 디테일 조회", notes = "memberId 값을 이용하여 조회한다.")
     @GetMapping("{groupId}/member/{memberId}")
@@ -50,5 +55,11 @@ public class MemberController {
         Group group = groupService.getGroup(groupId);
         Member newModifyMember = memberDto.toDomain(group);
         return memberService.modifyMember(newModifyMember);
+}
+    @ApiOperation(value = "Member 삭제", notes = "MemberId를 받아와서 Member을 삭제한다.")
+    @DeleteMapping("{groupId}/member/{memberId}")
+    public String deleteMember(@PathVariable Long groupId, @PathVariable Long memberId){
+        memberService.deleteMember(memberId);
+        return "제거 완료";
     }
 }
