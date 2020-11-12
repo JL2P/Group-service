@@ -23,6 +23,7 @@ public class MemberDto {
     private String confirm;     // (승인 Y / 미승인 N) 승인여부
     private Long groupId;
     private String manager; //관리자
+    private String date;
     
     public MemberDto(Member member){
         BeanUtils.copyProperties(member, this);
