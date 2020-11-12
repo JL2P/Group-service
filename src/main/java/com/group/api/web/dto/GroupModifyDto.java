@@ -22,14 +22,19 @@ public class GroupModifyDto implements Serializable{
 	private Long id;
 	private String title;       // 제목
     private String description; // 설명글
-    
+
     public GroupModifyDto(Group group){
     	BeanUtils.copyProperties(group, this);
     }
-    
-    public Group toDomain() {
-    	Group group = new Group();
-    	BeanUtils.copyProperties(this,group);
-    	return group;
-    }
+
+	public Group toEntity(Group group){
+		group.setId(this.id);
+		group.setImgUrl(group.getImgUrl());
+		group.setTitle(this.title);
+		group.setCategory(group.getCategory());
+		group.setMaster(group.getMaster());
+		group.setDescription(this.description);
+
+		return group;
+	}
 }

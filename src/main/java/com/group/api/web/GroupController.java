@@ -62,11 +62,13 @@ public class GroupController {
     
     @ApiOperation(value = "Group 수정", notes = "GroupDetail 변경 설정을 저장한다.")
     @PutMapping()
-    public Group modifyGroup(@RequestBody GroupModifyDto groupModifyDto) {
-    	Group group = groupModifyDto.toDomain(); 
-    	return groupService.modifyGroup(group);
+    public GroupModifyDto modifyGroup(@RequestBody GroupModifyDto groupModifyDto) {
+    	Group modifyGroup = groupService.getGroup(groupModifyDto.getId());
+
+    	Group group = groupModifyDto.toEntity(modifyGroup);
+    	return new GroupModifyDto(groupService.modifyGroup(group));
     }
-    
+
     @ApiOperation(value = "Group 삭제", notes = "GroupId를 받아와서 group을 삭제한다.")
     @DeleteMapping("{groupId}")
     public void deleteGroup(@PathVariable Long groupId) {
