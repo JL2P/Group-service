@@ -34,11 +34,14 @@ public class GroupDto implements Serializable{
     private String description; // 설명글
     private String imgUrl;      // 이미지 URL
     private List<MemberDto> members;
+    private List<GroupTodoDto> groupTodos;
     
     public GroupDto(Group group){
     	BeanUtils.copyProperties(group, this);
     	//group안에 있는 memebers(리스트)안의 member전체를 DTO로 변환하기위하는 부분
     	this.members = group.getMembers().stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+    	//group안에 있는 groupTodos(리스트)안의 groupTodo전체를 DTO로 변환하기위하는 부분
+        this.groupTodos = group.getGroupTodos().stream().map(groupTodo -> new GroupTodoDto(groupTodo)).collect(Collectors.toList());
     }
     
     public Group toDomain() {

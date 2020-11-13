@@ -31,4 +31,8 @@ public class Group {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Member> members = new ArrayList<Member>();
 
+    //groupTodo
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<GroupTodo> groupTodos = new ArrayList<GroupTodo>();
+
 }

@@ -10,11 +10,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "gropupTodos")
+@Table(name = "groupTodos")
 public class GroupTodo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group; // Group ID //group 객체를 받아오는데 자동으로 id를 보여준다.
 
     private String imgUrl;      // 이미지 URL
     private String title;       // 제목
