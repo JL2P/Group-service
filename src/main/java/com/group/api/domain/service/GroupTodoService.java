@@ -11,7 +11,7 @@ public interface GroupTodoService {
 
     public GroupTodo getTodo(Long todoId) throws NoSuchElementException;
 
-    public void addTodo(GroupTodo todo) throws GroupNotExistException;
+    public GroupTodo addTodo(GroupTodo todo) throws GroupNotExistException;
 
     public GroupTodo modifyTodo(GroupTodo todo) throws NoSuchElementException;
 

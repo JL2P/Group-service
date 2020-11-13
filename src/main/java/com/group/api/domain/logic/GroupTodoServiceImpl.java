@@ -16,11 +16,12 @@ import java.util.Optional;
 @Service
 public class GroupTodoServiceImpl implements GroupTodoService {
 
-    private final GroupTodoRepository todoRepository;
+    private final GroupTodoRepository groupTodoRepository;
 
     @Override
     public List<GroupTodo> getTodos() throws NoSuchElementException {
-        return todoRepository.findAll(sortByCreatedAsc());
+        List<GroupTodo> groupTodos =  groupTodoRepository.findAll();
+        return groupTodos;
     }
 
     private Sort sortByCreatedAsc() {
@@ -32,12 +33,12 @@ public class GroupTodoServiceImpl implements GroupTodoService {
         //데이터가 하나도 없을 경우 빈 group객체 반환
         if (!isExist(todoId)) return new GroupTodo();
 
-        return todoRepository.findById(todoId).orElseThrow(() -> new NoSuchElementException());
+        return groupTodoRepository.findById(todoId).orElseThrow(() -> new NoSuchElementException());
     }
 
     @Override
-    public void addTodo(GroupTodo todo) throws GroupNotExistException {
-        todoRepository.save(todo);
+    public GroupTodo addTodo(GroupTodo todo) throws GroupNotExistException {
+        return groupTodoRepository.save(todo);
     }
 
     @Override
@@ -45,19 +46,19 @@ public class GroupTodoServiceImpl implements GroupTodoService {
         //DB에 todo가 존재하는지 확인
         if (!isExist(todo.getId())) throw new NoSuchElementException(todo.getId().toString());
 
-        return todoRepository.save(todo);
+        return groupTodoRepository.save(todo);
     }
 
     @Override
     public void deleteTodo(Long todoId) throws NoSuchElementException {
         if (!isExist(todoId)) throw new NoSuchElementException(todoId.toString());
 
-        todoRepository.deleteById(todoId);
+        groupTodoRepository.deleteById(todoId);
     }
 
     @Override
     public boolean isExist(Long todoId) {
-        Optional<GroupTodo> todoOpt = todoRepository.findById(todoId);
+        Optional<GroupTodo> todoOpt = groupTodoRepository.findById(todoId);
         //Optional안에 todo객체가 존재하는 경우
         if (todoOpt.isPresent()) return true;
 
