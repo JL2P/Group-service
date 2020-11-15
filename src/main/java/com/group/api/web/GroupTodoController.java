@@ -43,5 +43,11 @@ public class GroupTodoController {
         //만들어진 member객체를 실제 디비에 저장한다
         return groupTodoService.addTodo(newAddGroupTodo);
     }
+    @ApiOperation(value = "GroupTodo 삭제", notes = "GroupTodoId를 받아와서 GroupTodo을 삭제한다.")
+    @DeleteMapping("{groupId}/groupTodo/{groupTodoId}")
+    public String deleteGroupTodo(@PathVariable Long groupTodoId, @PathVariable Long groupId){
+        groupTodoService.deleteTodo(groupTodoId);
+        return "계획 삭제 완료.";
+    }
 
 }
