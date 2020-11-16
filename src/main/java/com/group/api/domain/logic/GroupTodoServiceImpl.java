@@ -1,5 +1,6 @@
 package com.group.api.domain.logic;
 
+import com.group.api.domain.Group;
 import com.group.api.domain.GroupTodo;
 import com.group.api.domain.service.GroupTodoService;
 import com.group.api.exception.GroupNotExistException;
@@ -19,8 +20,14 @@ public class GroupTodoServiceImpl implements GroupTodoService {
     private final GroupTodoRepository groupTodoRepository;
 
     @Override
-    public List<GroupTodo> getTodos() throws NoSuchElementException {
+    public List<GroupTodo> getAllTodos() throws NoSuchElementException {
         List<GroupTodo> groupTodos =  groupTodoRepository.findAll();
+        return groupTodos;
+    }
+
+    @Override
+    public List<GroupTodo> getTodos(Group group) throws NoSuchElementException {
+        List<GroupTodo> groupTodos = groupTodoRepository.findByGroup(group, sortByCreatedAsc());
         return groupTodos;
     }
 
