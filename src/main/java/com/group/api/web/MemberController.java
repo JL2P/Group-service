@@ -4,6 +4,7 @@ import com.group.api.domain.Group;
 import com.group.api.domain.Member;
 import com.group.api.domain.service.MemberService;
 import com.group.api.web.dto.MemberDto;
+import com.group.api.web.dto.MemberTransferDto;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.event.PublicInvocationEvent;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,15 @@ public class MemberController {
         Member newModifyMember = memberDto.toDomain(group);
         return memberService.modifyMember(newModifyMember);
 }
+    @ApiOperation(value = "member 수정  그룹장 양도", notes = "Member의 내용을 수정한다.")
+    @PutMapping("{groupId}/transfer")
+    public MemberTransferDto modifyTransferMember(@RequestBody MemberTransferDto memberTransferDto, @PathVariable Long groupId){
+        Member modifyMember = memberService.getMember(memberTransferDto.getId());
+
+        Member member = memberTransferDto.toEntity(modifyMember);
+        return new MemberTransferDto(memberService.modifyMember(member));
+    }
+
     @ApiOperation(value = "Member 삭제", notes = "MemberId를 받아와서 Member을 삭제한다.")
     @DeleteMapping("{groupId}/member/{memberId}")
     public String deleteMember(@PathVariable Long groupId, @PathVariable Long memberId){
