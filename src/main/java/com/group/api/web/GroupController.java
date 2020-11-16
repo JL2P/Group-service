@@ -6,6 +6,7 @@ import com.group.api.web.dto.GroupCreateDto;
 import com.group.api.web.dto.GroupDto;
 import com.group.api.web.dto.GroupModifyDto;
 
+import com.group.api.web.dto.GroupTransferDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +68,15 @@ public class GroupController {
 
     	Group group = groupModifyDto.toEntity(modifyGroup);
     	return new GroupModifyDto(groupService.modifyGroup(group));
+    }
+
+    @ApiOperation(value = "Group 수정 그룹장 양도", notes = "GroupDetail 변경 설정을 저장한다.")
+    @PutMapping("transfer")
+    public GroupTransferDto modifyTransfetGroup(@RequestBody GroupTransferDto groupTransferDto) {
+        Group modifyGroup = groupService.getGroup(groupTransferDto.getId());
+
+        Group group = groupTransferDto.toEntity(modifyGroup);
+        return new GroupTransferDto(groupService.modifyGroup(group));
     }
 
     @ApiOperation(value = "Group 삭제", notes = "GroupId를 받아와서 group을 삭제한다.")
