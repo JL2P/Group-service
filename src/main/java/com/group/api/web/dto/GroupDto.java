@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.group.api.web.dto.groupTodo.GroupTodoDto;
 import org.springframework.beans.BeanUtils;
 
 import com.group.api.domain.Group;
@@ -41,7 +42,8 @@ public class GroupDto implements Serializable{
     	//group안에 있는 memebers(리스트)안의 member전체를 DTO로 변환하기위하는 부분
     	this.members = group.getMembers().stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
     	//group안에 있는 groupTodos(리스트)안의 groupTodo전체를 DTO로 변환하기위하는 부분
-        this.groupTodos = group.getGroupTodos().stream().map(groupTodo -> new GroupTodoDto(groupTodo)).collect(Collectors.toList());
+        //groupTodos는 필요하면 세팅해주도록 변경
+//        this.groupTodos = group.getGroupTodos().stream().map(groupTodo -> new GroupTodoDto(groupTodo)).collect(Collectors.toList());
     }
     
     public Group toDomain() {

@@ -1,17 +1,23 @@
 package com.group.api.web;
 
+import com.group.api.config.JwtTokenProvider;
 import com.group.api.domain.Group;
 import com.group.api.domain.service.GroupService;
+import com.group.api.domain.service.LikeService;
 import com.group.api.web.dto.GroupCreateDto;
 import com.group.api.web.dto.GroupDto;
 import com.group.api.web.dto.GroupModifyDto;
 
+
 import com.group.api.web.dto.GroupTransferDto;
+import com.group.api.web.dto.groupTodo.GroupTodoDto;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +28,9 @@ import java.util.stream.Collectors;
 public class GroupController {
 
     private final GroupService groupService;
-    
+    private final JwtTokenProvider jwtTokenProvider;
+    private final LikeService likeService;
+
     @ApiOperation(value = "Group 리스트 출력", notes = "전체 그룹 리스트를 출력한다.")
     @GetMapping()
     public List<GroupDto> getGroups(){
@@ -49,9 +57,27 @@ public class GroupController {
      */
     @ApiOperation(value = "Group 디테일 정보 조회", notes = "groupId 값을 이용하여 조회한다.")
     @GetMapping("{groupId}")
-    public GroupDto getGroup(@PathVariable Long groupId) {
+    public GroupDto getGroup(@PathVariable Long groupId, HttpServletRequest request) {
+        //HttpServletRequest request => http요청보낸거에서 헤더를 받아오기 위해서
+        // 그룹Todo의 좋아요를 눌렀는지 체크하기위해서는 유저정보가 필요하다.
+        // 그래서 토큰에서 유저정보를 취득하여 내가 좋아요를 누를 Todo인지 체크한다.
+
+        //토큰 취득
+        String token = jwtTokenProvider.resolveToken(request);
+        //토큰을 Decode하여 AccountId정보 취득
+        String accountId = jwtTokenProvider.getAccountId(token);
+
         Group group = groupService.getGroup(groupId);
-    	return new GroupDto(group);
+        GroupDto groupDto = new GroupDto(group);
+
+        //groupTodo에 GroupTodo리스트 데이터 넣어줌
+        //Group에 GroupTodo리스트도 있어야 할 것 같아서 넣어줌
+        //likeService.checkLiked(groupTodo, accountId) 이부분은 내가 그룹Todo를 좋아요를 눌렀는지 확인하는 부분
+        groupDto.setGroupTodos(
+                group.getGroupTodos().stream().map(
+                        groupTodo -> new GroupTodoDto(groupTodo, likeService.checkLiked(groupTodo, accountId))
+                ).collect(Collectors.toList()));
+    	return groupDto;
     }
     
     @ApiOperation(value = "Group 추가", notes = "GroupCreateDto 타입을 이용하여 데이터를 받아온다.")
