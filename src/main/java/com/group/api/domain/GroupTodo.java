@@ -30,6 +30,10 @@ public class GroupTodo extends CommonDateEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<GroupTodoMember> members = new ArrayList<GroupTodoMember>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<Comment>();
 
     @Builder.Default
