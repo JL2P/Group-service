@@ -37,18 +37,20 @@ public class MemberController {
 
     @ApiOperation(value = "Member 디테일 조회", notes = "memberId 값을 이용하여 조회한다.")
     @GetMapping("{groupId}/member/{memberId}")
-    public Member getMember(@PathVariable Long memberId) {return memberService.getMember(memberId);}
+    public MemberDto getMember(@PathVariable Long memberId) {
+        return new MemberDto(memberService.getMember(memberId));
+    }
 
     @ApiOperation(value = "Member 추가", notes = "멤버 타입을 활용항 데이터를 받아온다.")
     @PostMapping("{groupId}/member")
-    public Member addMember(@RequestBody MemberDto memberDto,@PathVariable Long groupId){
+    public MemberDto addMember(@RequestBody MemberDto memberDto,@PathVariable Long groupId){
 
         //member에 넣어줄 그룹의 정보를 가져온다.
         Group group = groupService.getGroup(groupId);
         //DB에 저장할 member 정보를 만들어준다 (DTO에서 Domain으로 변환)
         Member newAddMember = memberDto.toDomain(group);
         //만들어진 member객체를 실제 디비에 저장한다
-        return memberService.addMember(newAddMember);
+        return new MemberDto(memberService.addMember(newAddMember));
     }
     @ApiOperation(value = "Member 수정", notes = "Member의 내용을 수정한다.")
     @PutMapping("{groupId}/member")
