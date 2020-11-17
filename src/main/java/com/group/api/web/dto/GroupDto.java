@@ -1,6 +1,7 @@
 package com.group.api.web.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class GroupDto implements Serializable{
     	this.members = group.getMembers().stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
     	//group안에 있는 groupTodos(리스트)안의 groupTodo전체를 DTO로 변환하기위하는 부분
         //groupTodos는 필요하면 세팅해주도록 변경
+        this.groupTodos= new ArrayList<>();
 //        this.groupTodos = group.getGroupTodos().stream().map(groupTodo -> new GroupTodoDto(groupTodo)).collect(Collectors.toList());
     }
     
