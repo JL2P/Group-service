@@ -56,6 +56,16 @@ public class GroupTodoController {
         return groupTodoList.stream().map(groupTodo -> new GroupTodoDto(groupTodo,likeService.checkLiked(groupTodo, accountId))).collect(Collectors.toList());
     }
 
+    @ApiOperation(value = "그룹Todo 상세정보 조회",notes = "내가 선택한 GroupTodo의 상세 정보를 조회한다.")
+    @GetMapping("/{groupId}/todos/{groupTodoId}")
+    public GroupTodoDto getGroupTodo(HttpServletRequest request, @PathVariable Long groupId, @PathVariable Long groupTodoId){
+        String token = jwtTokenProvider.resolveToken(request);
+        String accountId = jwtTokenProvider.getAccountId(token);
+        GroupTodo groupTodo = groupTodoService.getTodo(groupTodoId);
+
+        return new GroupTodoDto(groupTodo,likeService.checkLiked(groupTodo,accountId));
+    }
+
     @ApiOperation(value = "groupTodo 추가", notes = "groupTodo를 활용한 데이터를 받아온다.")
     @PostMapping("/{groupId}/todos")
     public String addGroupTodo(@RequestBody GroupTodoAddDto groupTodoAddDto, @PathVariable Long groupId){
@@ -65,6 +75,7 @@ public class GroupTodoController {
         //DB에 저장할 groupTodo 정보를 만들어준다 (DTO에서 Domain으로 변환)
         GroupTodo newAddGroupTodo = groupTodoAddDto.toDomain(group);
         //만들어진 member객체를 실제 디비에 저장한다
+        groupTodoService.addTodo(newAddGroupTodo);
         return "GroupTodo 추가 완료";
     }
 
@@ -73,6 +84,7 @@ public class GroupTodoController {
     public String modifyGroupTodo(@RequestBody GroupTodoModifyDto groupTodoModifyDto, @PathVariable Long groupId,@PathVariable Long groupTodoId){
         GroupTodo groupTodo = groupTodoService.getTodo(groupTodoId);
         GroupTodo newAddGroupTodo = groupTodoModifyDto.toDomain(groupTodo);
+        groupTodoService.modifyTodo(newAddGroupTodo);
         return "GroupTodp 수정 완료";
     }
 
