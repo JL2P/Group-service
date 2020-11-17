@@ -24,6 +24,7 @@ public class GroupTransferDto {
         group.setMaster(this.master);
         group.setDescription(group.getDescription());
         group.setMembers(group.getMembers());
+        group.setOpenAt(group.getOpenAt());
 
         return group;
     }

@@ -34,6 +34,7 @@ public class GroupDto implements Serializable{
     private String master;      // 그룹장ID
     private String description; // 설명글
     private String imgUrl;      // 이미지 URL
+    private String openAt;      // 그룹 공개 여부
     private List<MemberDto> members;
     private List<GroupTodoDto> groupTodos;
     
