@@ -22,6 +22,7 @@ public class GroupModifyDto implements Serializable{
 	private Long id;
 	private String title;       // 제목
     private String description; // 설명글
+	private String openAt;      // 그룹 공개 여부
 
     public GroupModifyDto(Group group){
     	BeanUtils.copyProperties(group, this);
@@ -34,6 +35,7 @@ public class GroupModifyDto implements Serializable{
 		group.setCategory(group.getCategory());
 		group.setMaster(group.getMaster());
 		group.setDescription(this.description);
+		group.setOpenAt(this.openAt);
 
 		return group;
 	}

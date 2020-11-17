@@ -25,6 +25,7 @@ public class GroupCreateDto implements Serializable{
     private String master;      // 그룹장ID
     private String description; // 설명글
     private String imgUrl;      // 이미지 URL
+    private String openAt;      // 그룹 공개 여부
     
     public GroupCreateDto(Group group){
     	BeanUtils.copyProperties(group, this);
