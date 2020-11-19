@@ -17,9 +17,10 @@ public class GroupTodoMember extends CommonDateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String attender; // 참여자
+    private String todoId;
 
     // GroupTodo ID
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "todo_id", nullable = false)
-    private GroupTodo todo;
+    @JoinColumn(name = "group_todo_id", nullable = false)
+    private GroupTodo grouptodo;
 }
