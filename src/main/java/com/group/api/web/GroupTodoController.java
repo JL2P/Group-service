@@ -3,13 +3,14 @@ package com.group.api.web;
 import com.group.api.config.JwtTokenProvider;
 import com.group.api.domain.Group;
 import com.group.api.domain.GroupTodo;
+import com.group.api.domain.GroupTodoMember;
 import com.group.api.domain.service.GroupService;
+import com.group.api.domain.service.GroupTodoMemberService;
 import com.group.api.domain.service.GroupTodoService;
 import com.group.api.domain.service.LikeService;
 import com.group.api.web.dto.GroupModifyDto;
-import com.group.api.web.dto.groupTodo.GroupTodoAddDto;
-import com.group.api.web.dto.groupTodo.GroupTodoDto;
-import com.group.api.web.dto.groupTodo.GroupTodoModifyDto;
+import com.group.api.web.dto.groupTodo.*;
+import com.group.api.web.message.ErrorMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,10 @@ public class GroupTodoController {
 
     private final GroupTodoService groupTodoService;
     private final GroupService groupService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final GroupTodoMemberService groupTodoMemberService;
     private final LikeService likeService;
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @ApiOperation(value = "GroupTodo 리스트 출력", notes = "전체 그룹 투두 리스트를 출력한다.")
     @GetMapping("/allTodos")
@@ -95,4 +98,61 @@ public class GroupTodoController {
         return "계획 삭제 완료.";
     }
 
+
+    @ApiOperation(value = "groupTodo 참여확인", notes = "GroupTododp 이미 참여했는지 확인한다.")
+    @PostMapping("/{groupId}/todos/{groupTodoId}/attendCheck")
+    public String checkGroupTodo(HttpServletRequest request,
+                                              @PathVariable Long groupId,
+                                              @PathVariable Long groupTodoId){
+        // 참여자 정보 취득
+        String token = jwtTokenProvider.resolveToken(request);
+        String attenderId = jwtTokenProvider.getAccountId(token);
+        GroupTodo grouptodo = groupTodoService.getTodo(groupTodoId);
+        // 참여할 GroupTodo 취득
+        return groupTodoMemberService.checkAttendGroupTodoMember(attenderId, grouptodo);
+    }
+
+
+    @ApiOperation(value = "groupTodo 참여", notes = "그룹원들이 GroupTodo에 참여한다.")
+    @PostMapping("/{groupId}/todos/{groupTodoId}/attend")
+    public GroupTodoMemberDto attendGroupTodo(HttpServletRequest request,
+                                              @PathVariable Long groupId,
+                                              @PathVariable Long groupTodoId,
+                                              @RequestBody AttendDto attendDto){
+        // 참여자 정보 취득
+        String token = jwtTokenProvider.resolveToken(request);
+        String attenderId = jwtTokenProvider.getAccountId(token);
+        // 참여할 GroupTodo 취득
+        GroupTodo grouptodo = groupTodoService.getTodo(groupTodoId);
+        // 참가
+        String todoId = attendDto.getTodoId();
+        return new GroupTodoMemberDto(groupTodoMemberService.addGroupTodoMember(attenderId, grouptodo, todoId));
+
+    }
+
+    @ApiOperation(value = "groupTodo 참여 취소", notes = "그룹원들이 GroupTodo 참여를 취소한다..")
+    @DeleteMapping("/{groupId}/todos/{groupTodoId}/attend")
+    public GroupTodoMemberDto cancelGroupTodo(HttpServletRequest request,
+                                  @PathVariable Long groupId,
+                                  @PathVariable Long groupTodoId){
+        // 참여자 정보 취득
+        String token = jwtTokenProvider.resolveToken(request);
+        String attenderId = jwtTokenProvider.getAccountId(token);
+        // 참여 취소 할 GroupTodo 취득
+        GroupTodo grouptodo = groupTodoService.getTodo(groupTodoId);
+        // 참여 취소
+        GroupTodoMember groupTodoMember = groupTodoMemberService.findGroupTodoMember(attenderId, grouptodo);
+        GroupTodoMemberDto groupTodoMemberDto = new GroupTodoMemberDto(groupTodoMember);
+        groupTodoMemberService.removeGroupTodoMember(groupTodoMember);
+
+        return groupTodoMemberDto;
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public @ResponseBody
+    ErrorMessage runTimeError(RuntimeException e) {
+        ErrorMessage error = new ErrorMessage();
+        error.setMessage(e.getMessage());
+        return error;
+    }
 }

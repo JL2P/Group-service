@@ -29,7 +29,7 @@ public class GroupTodo extends CommonDateEntity {
     private String writer;      // 작성자ID
 
     @Builder.Default
-    @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "grouptodo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<GroupTodoMember> members = new ArrayList<GroupTodoMember>();
 
     @Builder.Default
