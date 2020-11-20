@@ -33,12 +33,12 @@ public class LikeController {
     }
 
     @DeleteMapping("/{groupTodoId}/like")
-    public String cancelLike(@PathVariable Long todoId, HttpServletRequest request){
+    public String cancelLike(@PathVariable Long groupId, @PathVariable Long groupTodoId, HttpServletRequest request){
         //토큰 취득
         String token = jwtTokenProvider.resolveToken(request);
         //토큰을 Decode하여 AccountId정보 취득
         String accountId = jwtTokenProvider.getAccountId(token);
-        GroupTodo groupTodo = todoService.getTodo(todoId);
+        GroupTodo groupTodo = todoService.getTodo(groupTodoId);
 
         likeService.removeLike(groupTodo,accountId);
         return "like cancel success";
