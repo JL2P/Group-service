@@ -15,6 +15,7 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/planit_group?useUnicode=true&charaterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+#    url: jdbc:mariadb://70.12.229.232:3306/planit_group?useUnicode=true&charaterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     hikari:
       username: planit
       password: planit1234
