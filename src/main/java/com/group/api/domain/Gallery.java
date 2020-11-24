@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "gallerys")
+@Table(name = "galleries")
 public class Gallery {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,5 +21,9 @@ public class Gallery {
 
     @Column(columnDefinition = "TEXT")
     private String filePath; //AWS에 저장된 파일 경로를 DB에 저장
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;        // Group ID //group 객체를 받아오는데 자동으로 id를 보여준다.
 
 }
