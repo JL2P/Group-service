@@ -7,6 +7,8 @@ security:
       signkey: planit
 
 spring:
+  profiles:
+    active: dev
   devtools:
     livereload:
       enabled: true
@@ -23,3 +25,6 @@ spring:
     database-platform: org.hibernate.dialect.MariaDB53Dialect
     hibernate:
       ddl-auto: create
+
+
+
