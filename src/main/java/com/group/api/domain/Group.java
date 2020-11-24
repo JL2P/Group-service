@@ -36,4 +36,8 @@ public class Group {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<GroupTodo> groupTodos = new ArrayList<GroupTodo>();
 
+    //groupGallery
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Gallery> galleries = new ArrayList<>();
+
 }
