@@ -38,15 +38,19 @@ public class GroupDto implements Serializable{
     private String openAt;      // 그룹 공개 여부
     private List<MemberDto> members;
     private List<GroupTodoDto> groupTodos;
+    private List<GalleryDto> galleries;
     
     public GroupDto(Group group){
     	BeanUtils.copyProperties(group, this);
     	//group안에 있는 memebers(리스트)안의 member전체를 DTO로 변환하기위하는 부분
     	this.members = group.getMembers().stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+
     	//group안에 있는 groupTodos(리스트)안의 groupTodo전체를 DTO로 변환하기위하는 부분
         //groupTodos는 필요하면 세팅해주도록 변경
         this.groupTodos= new ArrayList<>();
 //        this.groupTodos = group.getGroupTodos().stream().map(groupTodo -> new GroupTodoDto(groupTodo)).collect(Collectors.toList());
+
+        this.galleries = group.getGalleries().stream().map(gallery -> new GalleryDto(gallery)).collect(Collectors.toList());
     }
     
     public Group toDomain() {
