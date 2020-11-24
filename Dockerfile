@@ -1,4 +1,6 @@
-#이미지를 만들어줌
-FROM openjdk:11-jre-slim
-COPY build/libs/group-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java","-jar","./app.jar"]
+FROM adoptopenjdk/openjdk11:alpine-jre
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+
+EXPOSE 9003
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","/app.jar"]
