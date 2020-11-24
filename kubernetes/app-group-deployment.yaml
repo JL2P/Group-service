@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-group-deployment
+spec:
+  selector:
+    matchLabels:
+      app: spring-group
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spring-group
+    spec:
+      containers:
+        - name: spring-group
+          image: shoon2430/account-group:v1
+          ports:
+            - containerPort: 9003
