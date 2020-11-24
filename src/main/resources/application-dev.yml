@@ -1,7 +1,7 @@
 # 개발 환경
 
-
 spring:
+  profiles: dev
   devtools:
     livereload:
       enabled: true
