@@ -9,6 +9,8 @@ import com.group.api.web.dto.GalleryDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +25,9 @@ public class GalleryController {
     private final GalleryService galleryService;
     private final GroupService groupService;
 
+    @Value("${cloud.aws.s3.url}")
+    private String S3_url;
+
     @GetMapping("gallery")
     public String dispWrite() {
         return "/gallery";
@@ -32,18 +37,30 @@ public class GalleryController {
     @PostMapping("{groupId}/gallery")
     public GalleryDto execWrite(@RequestParam("file") MultipartFile file, @PathVariable Long groupId) throws IOException {
         Group group = groupService.getGroup(groupId);
+        //그룹에 맞는 갤러리가 있는지
+        Gallery gallery = galleryService.getGallery(group);
+        String filePath = null;
 
-        String imgPath = s3Service.upload(file);
-        String filename= file.getOriginalFilename();
+        if(gallery != null ){
+            filePath = gallery.getTitle();
+        }
+
+        String fileName = s3Service.upload(filePath,file);
+//        galleryService.getGallery().getFilePath()
+//        String filename= file.getOriginalFilename();
         //생성자와 같지만 더 명확하게 보여줌 //데이터를 받아오는 건 엔티티 객체로 저장
         Gallery newGallery = Gallery.builder()
-                .title(filename)
-                .filePath(imgPath)
+                .title(fileName)
+                .filePath(S3_url+fileName)
                 .group(group)
                 .build();
+        //겔러리가 이미 있는 건 UPDATE
+        //겔러리의 ID를 취득하여 newGallery에 넣어줌
+        //save시에 ID 값이 있으면 업데이트가 됨
+        if(gallery != null) newGallery.setId((gallery.getId()));
 
         //엔티티를 DTO로 변환해서 클라이언트에 반환
-        return new GalleryDto(galleryService.savePost(newGallery));
+        return new GalleryDto(galleryService.addGallery(newGallery));
 
     }
 }
