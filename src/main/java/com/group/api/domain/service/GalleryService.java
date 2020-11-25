@@ -1,18 +1,19 @@
 package com.group.api.domain.service;
 
 import com.group.api.domain.Gallery;
-import com.group.api.repository.GalleryRepository;
-import com.group.api.web.dto.GalleryDto;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.group.api.domain.Group;
+import com.group.api.exception.GroupNotExistException;
 
-@Service
-@RequiredArgsConstructor
-public class GalleryService {
-    private final GalleryRepository galleryRepository;
+import java.util.List;
+import java.util.NoSuchElementException;
 
-    public Gallery savePost(Gallery gallery) {
-        return galleryRepository.save(gallery);
-    }
+
+public interface GalleryService {
+    public List<Gallery> getGalleries() throws NoSuchElementException;
+    public Gallery getGallery(Group group) throws NoSuchElementException;
+    public Gallery addGallery(Gallery gallery) throws GroupNotExistException;
+    public Gallery modifyGallery(Gallery gallery) throws NoSuchElementException;
+    public void deleteGallery(Long galleryId) throws NoSuchElementException;
+    public boolean isExist(Long galleryId);
+
 }
