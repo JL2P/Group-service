@@ -23,6 +23,7 @@ public class GroupTodoDto {
     private String writer;      // 작성자ID
     private int likePoint;      // 좋아요 갯수
     private boolean likeState;  // 좋아요 했는지 체크
+    private List<GroupTodoGalleryDto> galleries;
     private List<GroupTodoMemberDto> members;
     private List<CommentDto> comments;
     private LocalDateTime created;
@@ -40,6 +41,7 @@ public class GroupTodoDto {
         this.likeState = likeState;
         this.members = todo.getMembers().stream().map(member->new GroupTodoMemberDto(member)).collect(Collectors.toList());
         this.comments = todo.getComments().stream().map(comment -> new CommentDto(comment)).collect(Collectors.toList());
+        this.galleries = todo.getGalleries().stream().map(gallery -> new GroupTodoGalleryDto(gallery)).collect(Collectors.toList());
         this.created = todo.getCreated();
         this.modified = todo.getModified();
     }

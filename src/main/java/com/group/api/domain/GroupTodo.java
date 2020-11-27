@@ -39,4 +39,9 @@ public class GroupTodo extends CommonDateEntity {
     @Builder.Default
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<Like>(); //좋아요
+
+    //groupGallery
+    @Builder.Default
+    @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<GroupTodoGallery> galleries = new ArrayList<>();
 }
