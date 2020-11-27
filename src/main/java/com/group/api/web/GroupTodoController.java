@@ -71,15 +71,15 @@ public class GroupTodoController {
 
     @ApiOperation(value = "groupTodo 추가", notes = "groupTodo를 활용한 데이터를 받아온다.")
     @PostMapping("/{groupId}/todos")
-    public String addGroupTodo(@RequestBody GroupTodoAddDto groupTodoAddDto, @PathVariable Long groupId){
+    public GroupTodoDto addGroupTodo(@RequestBody GroupTodoAddDto groupTodoAddDto, @PathVariable Long groupId){
 
         //groupTodo에 넣어줄 그룹의 정보를 가져온다.
         Group group = groupService.getGroup(groupId);
         //DB에 저장할 groupTodo 정보를 만들어준다 (DTO에서 Domain으로 변환)
         GroupTodo newAddGroupTodo = groupTodoAddDto.toDomain(group);
         //만들어진 member객체를 실제 디비에 저장한다
-        groupTodoService.addTodo(newAddGroupTodo);
-        return "GroupTodo 추가 완료";
+       ;
+        return new GroupTodoDto(groupTodoService.addTodo(newAddGroupTodo),false);
     }
 
     @ApiOperation(value = "groupTodo 수정", notes = "groupTodo를 수정한다.")

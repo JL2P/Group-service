@@ -1,11 +1,10 @@
 package com.group.api.domain.logic;
 
-import com.group.api.domain.Gallery;
-import com.group.api.domain.Group;
-import com.group.api.domain.Member;
+import com.group.api.domain.*;
 import com.group.api.domain.service.GalleryService;
 import com.group.api.exception.GroupNotExistException;
 import com.group.api.repository.GalleryRepository;
+import com.group.api.repository.GroupTodoGalleryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,7 @@ import java.util.NoSuchElementException;
 public class GalleryServiceImpl implements GalleryService {
 
     private final GalleryRepository galleryRepository;
+    private final GroupTodoGalleryRepository groupTodoGalleryRepository;
 
     @Override
     public List<Gallery> getGalleries() throws NoSuchElementException {
@@ -45,6 +45,38 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public boolean isExist(Long galleryId) {
+        return false;
+    }
+
+    // GroupTodoGalleries
+
+    @Override
+    public List<GroupTodoGallery> getGroupTodoGalleries() throws NoSuchElementException {
+        return null;
+    }
+
+    @Override
+    public GroupTodoGallery getGroupTodoGallery(GroupTodo groupTodo) throws NoSuchElementException {
+        return groupTodoGalleryRepository.findByTodo(groupTodo).orElse(null);
+    }
+
+    @Override
+    public GroupTodoGallery addGroupTodoGallery(GroupTodoGallery gallery) throws GroupNotExistException {
+        return groupTodoGalleryRepository.save(gallery);
+    }
+
+    @Override
+    public GroupTodoGallery modifyGroupTodoGallery(GroupTodoGallery gallery) throws NoSuchElementException {
+        return null;
+    }
+
+    @Override
+    public void deleteGroupTodoGallery(Long galleryId) throws NoSuchElementException {
+
+    }
+
+    @Override
+    public boolean isGroupTodoExist(Long galleryId) {
         return false;
     }
 }
