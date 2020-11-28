@@ -10,6 +10,7 @@ import com.group.api.web.dto.GroupModifyDto;
 
 
 import com.group.api.web.dto.GroupTransferDto;
+import com.group.api.web.dto.groupPoint.GroupRankGroupDto;
 import com.group.api.web.dto.groupTodo.GroupTodoDto;
 
 import io.swagger.annotations.Api;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -109,5 +111,16 @@ public class GroupController {
     @DeleteMapping("{groupId}")
     public void deleteGroup(@PathVariable Long groupId) {
     	groupService.deleteGroup(groupId);
+    }
+
+
+    @ApiOperation(value = "GroupRank Group데이터 매핑", notes = "요청받은 GroupRankGroupDto에서 GroupId를 하나씩 취득하여 Group객첼를 넣어준뒤 리턴한다.")
+    @PostMapping("/groupRank/mapping")
+    public List<GroupRankGroupDto> groupPointMappingToGroup(@RequestBody ArrayList<GroupRankGroupDto> GroupRankGroupDtos){
+        for(int i=0; i< GroupRankGroupDtos.size(); i++) {
+            long groupId = GroupRankGroupDtos.get(i).getGroupId();
+            GroupRankGroupDtos.get(i).setGroup(groupService.getGroup(groupId));
+        }
+        return GroupRankGroupDtos;
     }
 }
