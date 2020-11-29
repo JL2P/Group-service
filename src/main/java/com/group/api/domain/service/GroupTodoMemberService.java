@@ -1,5 +1,6 @@
 package com.group.api.domain.service;
 
+import com.group.api.domain.Group;
 import com.group.api.domain.GroupTodo;
 import com.group.api.domain.GroupTodoMember;
 import com.group.api.exception.GroupTodoMemberExistException;
@@ -9,5 +10,6 @@ public interface GroupTodoMemberService {
     public GroupTodoMember addGroupTodoMember(String attenderId, GroupTodo groupTodo, String todoId) throws GroupTodoMemberExistException;
     public String checkAttendGroupTodoMember(String attenderId, GroupTodo groupTodo);
     public GroupTodoMember findGroupTodoMember(String attenderId, GroupTodo groupTodo) throws GroupTodoMemberNotExistException;
+    public Group findTodoGroup(String todoId);
     public void removeGroupTodoMember(GroupTodoMember groupTodoMember);
 }
