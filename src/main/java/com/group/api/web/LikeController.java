@@ -6,6 +6,7 @@ import com.group.api.domain.service.GroupTodoService;
 import com.group.api.domain.service.LikeService;
 import com.group.api.web.message.ErrorMessage;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class LikeController {
     private final LikeService likeService;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @ApiOperation(value = "GroupTodo 좋아요 추가")
     @PostMapping("/{groupTodoId}/like")
     public String onLike(@PathVariable Long groupId,@PathVariable Long groupTodoId, HttpServletRequest request){
         //토큰 취득
@@ -32,6 +34,7 @@ public class LikeController {
         return "like add success";
     }
 
+    @ApiOperation(value = "GroupTodo 좋아요 삭제")
     @DeleteMapping("/{groupTodoId}/like")
     public String cancelLike(@PathVariable Long groupId, @PathVariable Long groupTodoId, HttpServletRequest request){
         //토큰 취득
