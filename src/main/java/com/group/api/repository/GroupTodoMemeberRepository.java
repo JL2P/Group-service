@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface GroupTodoMemeberRepository extends JpaRepository<GroupTodoMember, Long> {
     Optional<GroupTodoMember> findByAttenderAndGrouptodo(String attender, GroupTodo groupTodo);
     Optional<GroupTodoMember> findByAttenderAndGrouptodoAndTodoId(String attender, GroupTodo groupTodo,String todoId);
+    Optional<GroupTodoMember> findByTodoId(String todoId);
 }

@@ -8,6 +8,7 @@ import com.group.api.domain.service.GroupService;
 import com.group.api.domain.service.GroupTodoMemberService;
 import com.group.api.domain.service.GroupTodoService;
 import com.group.api.domain.service.LikeService;
+import com.group.api.web.dto.GroupDto;
 import com.group.api.web.dto.GroupModifyDto;
 import com.group.api.web.dto.groupTodo.*;
 import com.group.api.web.message.ErrorMessage;
@@ -147,6 +148,15 @@ public class GroupTodoController {
 
         return groupTodoMemberDto;
     }
+
+    @ApiOperation(value = "groupTodo의 그룹정보를 리턴한다", notes = "groupTodo의 그룹정보를 리턴한다")
+    @GetMapping("/todos/members/{todoId}")
+    public GroupDto getGroupTodoGroupInfo(@PathVariable String todoId){
+        return new GroupDto(groupTodoMemberService.findTodoGroup(todoId));
+    }
+
+
+
 
     @ExceptionHandler(RuntimeException.class)
     public @ResponseBody

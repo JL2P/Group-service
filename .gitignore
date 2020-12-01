@@ -36,8 +36,20 @@ out/
 ### VS Code ###
 .vscode/
 
+
 # s3 막음
 src/main/resources/application-dev.yaml
 src/main/resources/application-prod.yaml
 src/main/resources/application-dev.yml
+<<<<<<< HEAD
 src/main/resources/application-prod.yml
+=======
+src/main/resources/application-prod.yml
+
+# 설정파일 막음
+src/main/resources/application-test.yaml
+src/main/resources/application-dev.yml
+src/main/resources/application-prod.yml
+src/main/resources/application-test.yml
+
+>>>>>>> cf678c6b80c23e20955241e978dbacb2b62b0129
